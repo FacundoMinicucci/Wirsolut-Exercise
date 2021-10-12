@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WirsolutExercise.Core.DTOs.ClientsDTO>
+@{
+    ViewData["Title"] = "Clients list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-sm-3 text-white">
+            <h3>Clients list</h3>
+        </div>
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color text-white">
+                <p>
+                    Filter: <input type="text" name="searchString" value="@ViewData["CurrentFilter"]"/>
+                    <input type="submit" value="Search" class="btn btn-primary"/>
+                    <a asp-action="Index" class="btn btn-light">Show all clients</a>
+                </p>
+            </div>
+        </form>
+        <div class="col-sm-2">
+            <a class="btn btn-success d-block" asp-action="Add" asp-controller="Clients">Add new client</a>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-striped text-white">
+                <thead>                    
+                    <tr class="font-weight-bold">                        
+                        <td>@Html.DisplayNameFor(x => x.FirstName)</td>
+                        <td>@Html.DisplayNameFor(x => x.LastName)</td>
+                        <td>@Html.DisplayNameFor(x => x.DNI)</td>
+                        <td>@Html.DisplayNameFor(x => x.CUIT)</td>
+                        <td>@Html.DisplayNameFor(x => x.Address)</td>
+                        <td>@Html.DisplayNameFor(x => x.Location)</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>                        
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.DNI</td>
+                        <td>@item.CUIT</td>
+                        <td>@item.Address</td>
+                        <td>@item.Location</td>
+                        <td>
+                            <a asp-controller="Clients" asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Clients" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>                
+            </table>
+        }
+        else
+        {
+            <p class="text-white font-italic">No clients found</p>
+        }
+
+    </div>
+
+</div>
